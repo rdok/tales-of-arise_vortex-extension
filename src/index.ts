@@ -7,6 +7,10 @@ const main = (context: types.IExtensionContext) => {
     mergeMods: false,
     executable: () => "Arise\\Binaries\\Win64\\Tales of Arise.exe",
     logo: "game_art.jpg",
+    details: {
+      steamAppId: 740130,
+      nexusPageId: "talesofarise",
+    },
     queryModPath: function (gamePath: string): string {
       throw new Error("Function not implemented.");
     },
