@@ -35,14 +35,20 @@ describe("Game registration", () => {
   });
 
   it("sets the details: steam app id & nexus page id", async () => {
-    // Not feasible to test anonymous function. Might refactor later
-    // to extract the executable else where, and then properly test.
     expect(vortexContext.registerGame).toHaveBeenCalledWith(
       expect.objectContaining({
         details: {
           steamAppId: 740130,
           nexusPageId: "talesofarise",
         },
+      })
+    );
+  });
+
+  it("sets the requires filess", async () => {
+    expect(vortexContext.registerGame).toHaveBeenCalledWith(
+      expect.objectContaining({
+        requiredFiles: ["Arise\\Binaries\\Win64\\Tales of Arise.exe"],
       })
     );
   });
