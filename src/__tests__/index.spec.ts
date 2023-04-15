@@ -17,6 +17,14 @@ describe("Game registration", () => {
       expect.objectContaining({ name: "Tales of Arise" })
     );
   });
+
+  it("sets the executable", async () => {
+    // Not feasible to test anonymous function. Might refactor later
+    // to extract the executable else where, and then properly test.
+    expect(vortexContext.registerGame).toHaveBeenCalledWith(
+      expect.objectContaining({ executable: expect.any(Function) })
+    );
+  });
 });
 
 function makeFactory() {

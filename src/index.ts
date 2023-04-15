@@ -4,11 +4,10 @@ const main = (context: types.IExtensionContext) => {
   context.registerGame({
     id: "talesofarise",
     name: "Tales of Arise",
-    queryModPath: function (gamePath: string): string {
-      throw new Error("Function not implemented.");
-    },
     mergeMods: false,
-    executable: function (discoveredPath?: string | undefined): string {
+    executable: () => "Arise\\Binaries\\Win64\\Tales of Arise.exe",
+
+    queryModPath: function (gamePath: string): string {
       throw new Error("Function not implemented.");
     },
     requiredFiles: [],
