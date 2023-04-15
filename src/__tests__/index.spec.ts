@@ -11,6 +11,12 @@ describe("Game registration", () => {
       expect.objectContaining({ id: "talesofarise" })
     );
   });
+
+  it("sets the name", async () => {
+    expect(vortexContext.registerGame).toHaveBeenCalledWith(
+      expect.objectContaining({ name: "Tales of Arise" })
+    );
+  });
 });
 
 function makeFactory() {
