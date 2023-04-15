@@ -4,9 +4,8 @@ start: node_modules
 build: node_modules
 	yarn run build
 
-#bundle: build
 export VERSION=$(shell jq -r .version package.json)
-bundle:
+bundle: build
 	cd dist && tar --create --verbose --file ../tales-of-arise-$${VERSION}.zip * && cd -
 
 update-yarn:
@@ -15,19 +14,18 @@ update-yarn:
 
 test-watch:
 	yarn run test:watch
-test:
+test: node_modules
 	yarn run test
 
-prettier:
+prettier: node_modules
 	yarn run prettier
 prettier-fix:
 	yarn run prettier:fix
 
-lint:
+lint: node_modules
 	yarn lint
 lint-fix:
 	yarn lint:fix
-
 
 node_modules:
 	yarn install --frozen-lockfile
