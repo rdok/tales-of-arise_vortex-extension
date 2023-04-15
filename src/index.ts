@@ -1,22 +1,24 @@
 import { types } from "vortex-api";
 
-const EXECUTABLE = "Arise\\Binaries\\Win64\\Tales of Arise.exe";
+const EXECUTABLE_PATH = "Arise\\Binaries\\Win64\\Tales of Arise.exe";
+const STEAM_APP_ID = 740130;
 
 const main = (context: types.IExtensionContext) => {
   context.registerGame({
     id: "talesofarise",
     name: "Tales of Arise",
     mergeMods: false,
-    executable: () => EXECUTABLE,
+    executable: () => EXECUTABLE_PATH,
     logo: "game_art.jpg",
     details: {
-      steamAppId: 740130,
+      steamAppId: STEAM_APP_ID,
       nexusPageId: "talesofarise",
     },
     queryModPath: function (gamePath: string): string {
       throw new Error("Function not implemented.");
     },
-    requiredFiles: [EXECUTABLE],
+    requiredFiles: [EXECUTABLE_PATH],
+    environment: { SteamAPPId: String(STEAM_APP_ID) },
   });
 
   context.registerAction("global-icons", 100, "menu", {}, "Sample", () => {

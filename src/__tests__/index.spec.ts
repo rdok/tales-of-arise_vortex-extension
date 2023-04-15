@@ -45,11 +45,17 @@ describe("Game registration", () => {
     );
   });
 
-  it("sets the requires filess", async () => {
+  it("sets the requires files", async () => {
     expect(vortexContext.registerGame).toHaveBeenCalledWith(
       expect.objectContaining({
         requiredFiles: ["Arise\\Binaries\\Win64\\Tales of Arise.exe"],
       })
+    );
+  });
+
+  it("sets the environment: steam app id", async () => {
+    expect(vortexContext.registerGame).toHaveBeenCalledWith(
+      expect.objectContaining({ environment: { SteamAPPId: "740130" } })
     );
   });
 });
