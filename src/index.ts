@@ -6,7 +6,7 @@ const main = (context: types.IExtensionContext) => {
     name: "Tales of Arise",
     mergeMods: false,
     executable: () => "Arise\\Binaries\\Win64\\Tales of Arise.exe",
-
+    logo: "game_art.jpg",
     queryModPath: function (gamePath: string): string {
       throw new Error("Function not implemented.");
     },

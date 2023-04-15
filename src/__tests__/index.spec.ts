@@ -25,6 +25,14 @@ describe("Game registration", () => {
       expect.objectContaining({ executable: expect.any(Function) })
     );
   });
+
+  it("sets the logo", async () => {
+    // Not feasible to test anonymous function. Might refactor later
+    // to extract the executable else where, and then properly test.
+    expect(vortexContext.registerGame).toHaveBeenCalledWith(
+      expect.objectContaining({ logo: "game_art.jpg" })
+    );
+  });
 });
 
 function makeFactory() {
