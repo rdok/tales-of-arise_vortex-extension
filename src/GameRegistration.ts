@@ -1,5 +1,5 @@
 import { types, util } from "vortex-api";
-import { EXECUTABLE_PATH, ID, STEAMAPP_ID } from "./main";
+import { EXECUTABLE_PATH, TALESOFARISE_ID, STEAMAPP_ID } from "./main";
 
 type Props = { gameStoreHelper: typeof util.GameStoreHelper };
 
@@ -12,7 +12,7 @@ export class GameRegistration {
 
   create(): types.IGame {
     return {
-      id: ID,
+      id: TALESOFARISE_ID,
       name: "Tales of Arise",
       mergeMods: false,
       executable: () => EXECUTABLE_PATH,
