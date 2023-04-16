@@ -10,10 +10,11 @@ import {
 import { GameStoreHelper } from "vortex-api/lib/util/api";
 import { GameRegistration } from "../src/GameRegistration";
 import {
-  InstallerRegistrationOutput,
+  UsmInstallerRegistrationOutput,
   PakInstallerRegistration,
 } from "../src/installers/PakInstallerRegistration";
 import { fs as vortexFs } from "vortex-api";
+import { UsmInstallerRegistration } from "../src/installers/UsmInstallerRegistration";
 
 export const makeVortexApi = () => {
   const registerGame = jest.fn();
@@ -54,9 +55,15 @@ export const makeMainFactory = () => {
   });
 
   const pakInstallerRegistrationOutput =
-    createMock<InstallerRegistrationOutput>();
+    createMock<UsmInstallerRegistrationOutput>();
   const pakInstallerRegistration = createMock<PakInstallerRegistration>({
     create: jest.fn().mockReturnValue(pakInstallerRegistrationOutput),
+  });
+
+  const usmInstallerRegistrationOutput =
+    createMock<UsmInstallerRegistrationOutput>();
+  const usmInstallerRegistration = createMock<UsmInstallerRegistration>({
+    create: jest.fn().mockReturnValue(usmInstallerRegistrationOutput),
   });
   return {
     ...makeVortexApi(),
@@ -64,6 +71,8 @@ export const makeMainFactory = () => {
     game,
     pakInstallerRegistration,
     pakInstallerRegistrationOutput,
+    usmInstallerRegistration,
+    usmInstallerRegistrationOutput,
   };
 };
 

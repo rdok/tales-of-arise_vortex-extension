@@ -7,9 +7,15 @@ const {
   game,
   pakInstallerRegistration,
   pakInstallerRegistrationOutput,
+  usmInstallerRegistration,
+  usmInstallerRegistrationOutput,
 } = makeMainFactory();
 
-main(context, { gameRegistration, pakInstallerRegistration });
+main(context, {
+  gameRegistration,
+  pakInstallerRegistration,
+  usmInstallerRegistration,
+});
 
 describe("GameRegistration", () => {
   it("creates the game registration", () => {
@@ -26,39 +32,29 @@ describe("PakInstallerRegistration", () => {
     expect(pakInstallerRegistration.create).toHaveBeenCalled();
   });
 
-  it("registers the pak id", () => {
-    expect(context.registerInstaller).toHaveBeenCalledWith(
+  it("registers the installer", () => {
+    expect(context.registerInstaller).toHaveBeenNthCalledWith(
+      1,
       pakInstallerRegistrationOutput.installerName,
-      expect.anything(),
-      expect.anything(),
-      expect.anything()
-    );
-  });
-
-  it("registers the pak priority", () => {
-    expect(context.registerInstaller).toHaveBeenCalledWith(
-      expect.anything(),
       pakInstallerRegistrationOutput.priority,
-      expect.anything(),
-      expect.anything()
-    );
-  });
-
-  it("registers the pak testSupported content", () => {
-    expect(context.registerInstaller).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
       pakInstallerRegistrationOutput.testSupportedContent,
-      expect.anything()
+      pakInstallerRegistrationOutput.installContent
     );
   });
+});
 
-  it("registers the pak install content", () => {
-    expect(context.registerInstaller).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expect.anything(),
-      pakInstallerRegistrationOutput.installContent
+describe("UsmInstallerRegistration", () => {
+  it("creates the usm installer registration", () => {
+    expect(usmInstallerRegistration.create).toHaveBeenCalled();
+  });
+
+  it("registers the installer", () => {
+    expect(context.registerInstaller).toHaveBeenNthCalledWith(
+      2,
+      usmInstallerRegistrationOutput.installerName,
+      usmInstallerRegistrationOutput.priority,
+      usmInstallerRegistrationOutput.testSupportedContent,
+      usmInstallerRegistrationOutput.installContent
     );
   });
 });

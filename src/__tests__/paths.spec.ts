@@ -16,7 +16,7 @@ it("normalises the executable path", () => {
   expect(executablePath()).toEqual(normalisedExecutablePath);
 });
 
-it("normalises the mods path", () => {
+it("normalises the pak mods path", () => {
   const { normalisedPakModsPath } = makePathsFactory();
   expect(pakModsPath()).toEqual(normalisedPakModsPath);
 });

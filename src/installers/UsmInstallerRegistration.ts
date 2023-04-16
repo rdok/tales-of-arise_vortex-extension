@@ -7,7 +7,7 @@ import {
 import { TALESOFARISE_ID } from "../main";
 import { usmModsPath } from "../paths";
 
-export type InstallerRegistrationOutput = {
+export type UsmInstallerRegistrationOutput = {
   installerName: string;
   priority: number;
   testSupportedContent: (files: string[]) => Promise<ISupportedResult>;
@@ -17,7 +17,7 @@ export type InstallerRegistrationOutput = {
 export class UsmInstallerRegistration {
   private modFileExt = ".usm";
 
-  create(): InstallerRegistrationOutput {
+  create(): UsmInstallerRegistrationOutput {
     const installerName = `${TALESOFARISE_ID}-USM`;
     const priority = 30;
     const testSupportedContent = this.testSupportedContent;
