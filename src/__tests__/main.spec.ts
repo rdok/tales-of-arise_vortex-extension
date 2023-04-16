@@ -1,19 +1,28 @@
 import { GameRegistration } from "../GameRegistration";
 
 import { makeVortexApi } from "../../jest/factories";
-
-jest.mock("../GameRegistration");
+import { createMock } from "ts-auto-mock";
+import { IGame } from "vortex-api/lib/types/api";
 
 it("creates the game registration", async () => {
-  const { context, main, gameStoreHelper } = await makeFactory();
-  main(context, { gameStoreHelper });
+  const { context, main, gameRegistration } = await makeFactory();
+  main(context, { gameRegistration });
 
-  const gameRegistration = (GameRegistration as jest.Mock).mock.instances[0];
   expect(gameRegistration.create).toHaveBeenCalled();
+});
+
+it("registers the game", async () => {
+  const { context, main, gameRegistration, game } = await makeFactory();
+  main(context, { gameRegistration });
+
+  expect(context.registerGame).toHaveBeenCalledWith(game);
 });
 
 const makeFactory = async () => {
   const main = (await import("../main")).default;
-  const { context, gameStoreHelper } = makeVortexApi();
-  return { main, context, gameStoreHelper };
+  const game = createMock<IGame>();
+  const gameRegistration = createMock<GameRegistration>({
+    create: jest.fn().mockReturnValue(game),
+  });
+  return { ...makeVortexApi(), main, gameRegistration, game };
 };

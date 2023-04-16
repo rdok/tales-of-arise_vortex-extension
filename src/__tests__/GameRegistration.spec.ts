@@ -41,9 +41,7 @@ describe("Game registration", () => {
   });
 
   it("sets the game installation path", async () => {
-    expect(await (game.queryPath as Function)()).toEqual(
-      iGameStoreEntry.gamePath
-    );
+    expect(await (game.queryPath as any)()).toEqual(iGameStoreEntry.gamePath);
   });
 
   it("sets the mod installation path", () => {
