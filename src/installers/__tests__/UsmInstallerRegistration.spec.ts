@@ -22,14 +22,14 @@ describe("UsmInstallerRegistration", () => {
       });
     });
 
-    // it("sets an invalid content qualifier function", async () => {
-    //   const { installerRegistration } = makeInvalidContentQualifierFactory();
-    //   const { testSupportedContent } = installerRegistration.create();
-    //   expect(await testSupportedContent([])).toEqual({
-    //     requiredFiles: [],
-    //     supported: false,
-    //   });
-    // });
+    it("sets an invalid content qualifier function", async () => {
+      const { installerRegistration } = makeInvalidContentQualifierFactory();
+      const { testSupportedContent } = installerRegistration.create();
+      expect(await testSupportedContent(["lorem.pak"])).toEqual({
+        requiredFiles: [],
+        supported: false,
+      });
+    });
   });
   //
   // describe("installContent", () => {
