@@ -3,7 +3,13 @@ import { GameRegistration } from "../GameRegistration";
 import { makeVortexApi } from "../../jest/factories";
 
 describe("Game registration", () => {
-  const { gameRegistration, iGameStoreEntry } = makeFactory();
+  const {
+    gameRegistration,
+    iGameStoreEntry,
+    ensureDirAsyncOutput,
+    discovery,
+    fs,
+  } = makeFactory();
   const game = gameRegistration.create();
 
   it("sets the id", async () => {
@@ -51,10 +57,28 @@ describe("Game registration", () => {
   it("clean ups empty directories", () => {
     expect(game.requiresCleanup).toBeTruthy();
   });
+
+  describe("prepares user's environment for modding", () => {
+    it("ensures directory exists", async () => {
+      expect(await (game.setup as any)(discovery)).toEqual(
+        ensureDirAsyncOutput
+      );
+    });
+    it("checks the right directory", () => {
+      expect(fs.ensureDirAsync).toHaveBeenCalledWith(
+        "~/steamapps/common/Tales of Arise/Arise/Content/Paks/~mods"
+      );
+    });
+  });
 });
 
 function makeFactory() {
-  const { gameStoreHelper, iGameStoreEntry } = makeVortexApi();
-  const gameRegistration = new GameRegistration({ gameStoreHelper });
-  return { gameRegistration, gameStoreHelper, iGameStoreEntry };
+  const vortexApi = makeVortexApi();
+  const { gameStoreHelper, fs } = vortexApi;
+  const gameRegistration = new GameRegistration({
+    gameStoreHelper,
+    ensureDirAsync: fs.ensureDirAsync,
+  });
+
+  return { ...vortexApi, gameRegistration, gameStoreHelper };
 }

@@ -1,13 +1,20 @@
-import { types, util } from "vortex-api";
-import { EXECUTABLE_PATH, TALESOFARISE_ID, STEAMAPP_ID } from "./main";
+import path from "path";
+import { types } from "vortex-api";
+// import { types, util, fs } from "vortex-api";
+import { EXECUTABLE_PATH, STEAMAPP_ID, TALESOFARISE_ID } from "./main";
 
-type Props = { gameStoreHelper: typeof util.GameStoreHelper };
+type Props = {
+  gameStoreHelper: any;
+  ensureDirAsync: any;
+};
 
 export class GameRegistration {
   private gameStoreHelper: any;
+  private ensureDirAsync: any;
 
   constructor(props: Props) {
     this.gameStoreHelper = props.gameStoreHelper;
+    this.ensureDirAsync = props.ensureDirAsync;
   }
 
   create(): types.IGame {
@@ -29,6 +36,13 @@ export class GameRegistration {
           .findByAppId([String(STEAMAPP_ID)])
           .then((game: types.IGameStoreEntry) => game.gamePath),
       requiresCleanup: true,
+      setup: (discovery: types.IDiscoveryResult) => {
+        if (!discovery.path) throw new Error("`discovery.path` is undefined.");
+
+        return this.ensureDirAsync(
+          path.join(discovery.path, "Arise", "Content", "Paks", "~mods")
+        );
+      },
     };
   }
 }
