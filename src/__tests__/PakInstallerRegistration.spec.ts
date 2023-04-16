@@ -1,6 +1,5 @@
 import { PakInstallerRegistration } from "../PakInstallerRegistration";
-import { makeVortexApi } from "../../jest/factories";
-import { makePathsFactory } from "./paths.spec";
+import { makePathsFactory, makeVortexApi } from "../../jest/factories";
 
 describe("PakInstallerRegistration", () => {
   const { installerRegistration } = makeFactory();
