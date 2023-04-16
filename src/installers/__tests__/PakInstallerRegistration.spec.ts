@@ -33,10 +33,16 @@ describe("PakInstallerRegistration", () => {
   });
 
   describe("installContent", () => {
-    it("installs valid files files", async () => {
+    const { normalisedPakModsPath } = makePathsFactory();
+
+    it("installs valid files", async () => {
       expect(await installContent(["lorem.pak"])).toEqual({
         instructions: [
-          { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
+          {
+            destination: `${normalisedPakModsPath}/lorem.pak`,
+            source: "lorem.pak",
+            type: "copy",
+          },
         ],
       });
     });
@@ -46,8 +52,16 @@ describe("PakInstallerRegistration", () => {
         await installContent(["lorem.pak", "invalid", "path/ip.pak"])
       ).toEqual({
         instructions: [
-          { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
-          { destination: "path/ip.pak", source: "path/ip.pak", type: "copy" },
+          {
+            destination: `${normalisedPakModsPath}/lorem.pak`,
+            source: "lorem.pak",
+            type: "copy",
+          },
+          {
+            destination: `${normalisedPakModsPath}/path/ip.pak`,
+            source: "path/ip.pak",
+            type: "copy",
+          },
         ],
       });
     });

@@ -31,31 +31,31 @@ describe("UsmInstallerRegistration", () => {
       });
     });
   });
-  //
-  // describe("installContent", () => {
-  //   it("installs valid files files", async () => {
-  //     expect(await installContent(["lorem.pak"])).toEqual({
-  //       instructions: [
-  //         { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
-  //       ],
-  //     });
-  //   });
-  //
-  //   it("filters invalid files", async () => {
-  //     expect(
-  //       await installContent(["lorem.pak", "invalid", "path/ip.pak"])
-  //     ).toEqual({
-  //       instructions: [
-  //         { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
-  //         { destination: "path/ip.pak", source: "path/ip.pak", type: "copy" },
-  //       ],
-  //     });
-  //   });
-  //
-  //   it("installs no files having non valid", async () => {
-  //     expect(await installContent(["invalid"])).toEqual({ instructions: [] });
-  //   });
-  // });
+
+  describe("installContent", () => {
+    it("installs valid files", async () => {
+      expect(await installContent(["lorem.usm"])).toEqual({
+        instructions: [
+          { destination: "lorem.usm", source: "lorem.usm", type: "copy" },
+        ],
+      });
+    });
+
+    it("filters invalid files", async () => {
+      expect(
+        await installContent(["lorem.usm", "invalid", "path/ip.usm"])
+      ).toEqual({
+        instructions: [
+          { destination: "lorem.usm", source: "lorem.usm", type: "copy" },
+          { destination: "path/ip.usm", source: "path/ip.usm", type: "copy" },
+        ],
+      });
+    });
+
+    it("installs no files having non valid", async () => {
+      expect(await installContent(["invalid"])).toEqual({ instructions: [] });
+    });
+  });
 });
 
 function makeFactory() {

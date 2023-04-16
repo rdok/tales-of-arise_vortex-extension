@@ -1,7 +1,11 @@
 import path from "path";
 
+export const modsPath = () => {
+  return path.join("Arise");
+};
+
 export const pakModsPath = () => {
-  return path.join("Arise", "Content", "Paks", "~mods");
+  return path.join(modsPath(), "Content", "Paks", "~mods");
 };
 
 export const executablePath = () => {

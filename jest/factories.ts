@@ -68,7 +68,12 @@ export const makeMainFactory = () => {
 };
 
 export const makePathsFactory = () => {
+  const normalisedModsPath = "Arise";
   const normalisedPakModsPath = "Arise/Content/Paks/~mods";
   const normalisedExecutablePath = "Arise/Binaries/Win64/Tales of Arise.exe";
-  return { normalisedPakModsPath, normalisedExecutablePath };
+  return {
+    normalisedModsPath,
+    normalisedPakModsPath,
+    normalisedExecutablePath,
+  };
 };
