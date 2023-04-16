@@ -1,4 +1,4 @@
 node_modules/
 dist/
-*.zip
+*.7z
 yarn-error.log

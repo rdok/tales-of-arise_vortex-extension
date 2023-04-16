@@ -7,7 +7,7 @@ build: node_modules
 export VERSION=$(shell jq -r .version package.json)
 bundle: build
 	sed -i '/version/c\  \"version\" : \"${VERSION}\",' info.json
-	cd dist && tar --create --verbose --file ../tales-of-arise-$${VERSION}.zip * && cd -
+	./node_modules/7z-bin/linux/7zzs  a  tales-of-arise-$${VERSION}.7z ./dist/*
 
 update-yarn:
 	yarn install --frozen-lockfile
