@@ -6,7 +6,6 @@ type Props = {
   pakInstallerRegistration: PakInstallerRegistration;
 };
 
-export const EXECUTABLE_PATH = "Arise\\Binaries\\Win64\\Tales of Arise.exe";
 export const STEAMAPP_ID = 740130;
 export const TALESOFARISE_ID = "talesofarise";
 
