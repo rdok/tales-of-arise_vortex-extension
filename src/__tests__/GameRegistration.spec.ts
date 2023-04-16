@@ -19,16 +19,12 @@ describe("Game registration", () => {
   });
 
   it("sets the executable", async () => {
-    // Not feasible to test anonymous function. Might refactor later
-    // to extract the executable else where, and then properly test.
-    expect(context.registerGame).toHaveBeenCalledWith(
-      expect.objectContaining({ executable: expect.any(Function) })
+    expect(game.executable()).toEqual(
+      "Arise\\Binaries\\Win64\\Tales of Arise.exe"
     );
   });
 
   it("sets the logo", async () => {
-    // Not feasible to test anonymous function. Might refactor later
-    // to extract the executable else where, and then properly test.
     expect(context.registerGame).toHaveBeenCalledWith(
       expect.objectContaining({ logo: "game_art.jpg" })
     );
