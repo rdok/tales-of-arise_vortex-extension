@@ -1,7 +1,6 @@
 import { GameRegistration } from "../GameRegistration";
 
-import { makeVortexApi } from "../../jest/factories";
-import { makePathsFactory } from "./paths.spec";
+import { makePathsFactory, makeVortexApi } from "../../jest/factories";
 
 describe("Game registration", () => {
   const {

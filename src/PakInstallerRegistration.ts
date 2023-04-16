@@ -26,7 +26,7 @@ export class PakInstallerRegistration {
   }
 
   testSupportedContent = (files: string[]) => {
-    let supported =
+    const supported =
       files.find(
         (file) => path.extname(file).toLowerCase() === this.modFileExt
       ) !== undefined;
