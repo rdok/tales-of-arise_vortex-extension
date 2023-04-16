@@ -2,6 +2,7 @@ import { createMock } from "ts-auto-mock";
 import { randWord } from "@ngneat/falso";
 
 import {
+  IDiscoveryResult,
   IExtensionContext,
   IGame,
   IGameStoreEntry,
@@ -12,18 +13,33 @@ import {
   InstallerRegistration,
   InstallerRegistrationOutput,
 } from "../src/InstallerRegistration";
+import { fs as vortexFs } from "vortex-api";
 
 export const makeVortexApi = () => {
   const registerGame = jest.fn();
   const context = createMock<IExtensionContext>({ registerGame });
-  context.registerInstaller;
+  const ensureDirAsyncOutput = jest.fn();
+  const fs = createMock<typeof vortexFs>({
+    ensureDirAsync: jest.fn().mockReturnValue(ensureDirAsyncOutput),
+  });
+  const discovery = createMock<IDiscoveryResult>({
+    path: "~/steamapps/common/Tales of Arise",
+  });
 
   const iGameStoreEntry = createMock<IGameStoreEntry>({ gamePath: randWord() });
   const gameStoreHelper = createMock<typeof GameStoreHelper>({
     findByAppId: jest.fn().mockResolvedValue(iGameStoreEntry),
   });
 
-  return { context, registerGame, gameStoreHelper, iGameStoreEntry };
+  return {
+    context,
+    registerGame,
+    gameStoreHelper,
+    iGameStoreEntry,
+    fs,
+    discovery,
+    ensureDirAsyncOutput,
+  };
 };
 
 export const makeMainFactory = () => {
