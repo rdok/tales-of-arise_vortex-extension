@@ -25,7 +25,7 @@ describe("UsmInstallerRegistration", () => {
     it("sets an invalid content qualifier function", async () => {
       const { installerRegistration } = makeInvalidContentQualifierFactory();
       const { testSupportedContent } = installerRegistration.create();
-      expect(await testSupportedContent(["lorem.pak"])).toEqual({
+      expect(await testSupportedContent(["lorem.invalid"])).toEqual({
         requiredFiles: [],
         supported: false,
       });
@@ -33,10 +33,16 @@ describe("UsmInstallerRegistration", () => {
   });
 
   describe("installContent", () => {
+    const { normalisedUsmModsPath } = makePathsFactory();
+
     it("installs valid files", async () => {
       expect(await installContent(["lorem.usm"])).toEqual({
         instructions: [
-          { destination: "lorem.usm", source: "lorem.usm", type: "copy" },
+          {
+            destination: `${normalisedUsmModsPath}/lorem.usm`,
+            source: "lorem.usm",
+            type: "copy",
+          },
         ],
       });
     });
@@ -46,8 +52,16 @@ describe("UsmInstallerRegistration", () => {
         await installContent(["lorem.usm", "invalid", "path/ip.usm"])
       ).toEqual({
         instructions: [
-          { destination: "lorem.usm", source: "lorem.usm", type: "copy" },
-          { destination: "path/ip.usm", source: "path/ip.usm", type: "copy" },
+          {
+            destination: `${normalisedUsmModsPath}/lorem.usm`,
+            source: "lorem.usm",
+            type: "copy",
+          },
+          {
+            destination: `${normalisedUsmModsPath}/path/ip.usm`,
+            source: "path/ip.usm",
+            type: "copy",
+          },
         ],
       });
     });
@@ -59,14 +73,12 @@ describe("UsmInstallerRegistration", () => {
 });
 
 function makeFactory() {
-  const { normalisedPakModsPath: modPath } = makePathsFactory();
   const { gameStoreHelper, iGameStoreEntry } = makeVortexApi();
   const installerRegistration = new UsmInstallerRegistration();
   return {
     installerRegistration,
     gameStoreHelper,
     iGameStoreEntry,
-    modPath,
   };
 }
 

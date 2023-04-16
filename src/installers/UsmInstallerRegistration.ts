@@ -5,6 +5,7 @@ import {
   ISupportedResult,
 } from "vortex-api/lib/types/api";
 import { TALESOFARISE_ID } from "../main";
+import { usmModsPath } from "../paths";
 
 export type InstallerRegistrationOutput = {
   installerName: string;
@@ -54,7 +55,7 @@ export class UsmInstallerRegistration {
       (file): IInstruction => ({
         type: "copy",
         source: file,
-        destination: path.join(file.slice(idx)),
+        destination: path.join(usmModsPath(), file.slice(idx)),
       })
     );
 

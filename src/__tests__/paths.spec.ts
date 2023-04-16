@@ -1,9 +1,14 @@
-import { executablePath, modsPath, pakModsPath } from "../paths";
+import {
+  executablePath,
+  baseModsPath,
+  pakModsPath,
+  usmModsPath,
+} from "../paths";
 import { makePathsFactory } from "../../jest/factories";
 
 it("normalises the mods path", () => {
   const { normalisedModsPath } = makePathsFactory();
-  expect(modsPath()).toEqual(normalisedModsPath);
+  expect(baseModsPath()).toEqual(normalisedModsPath);
 });
 
 it("normalises the executable path", () => {
@@ -14,4 +19,9 @@ it("normalises the executable path", () => {
 it("normalises the mods path", () => {
   const { normalisedPakModsPath } = makePathsFactory();
   expect(pakModsPath()).toEqual(normalisedPakModsPath);
+});
+
+it("normalises the usm mods path", () => {
+  const { normalisedUsmModsPath } = makePathsFactory();
+  expect(usmModsPath()).toEqual(normalisedUsmModsPath);
 });

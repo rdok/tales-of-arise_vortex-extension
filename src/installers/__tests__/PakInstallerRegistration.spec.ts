@@ -73,14 +73,12 @@ describe("PakInstallerRegistration", () => {
 });
 
 function makeFactory() {
-  const { normalisedPakModsPath: modPath } = makePathsFactory();
   const { gameStoreHelper, iGameStoreEntry } = makeVortexApi();
   const installerRegistration = new PakInstallerRegistration();
   return {
     installerRegistration,
     gameStoreHelper,
     iGameStoreEntry,
-    modPath,
   };
 }
 

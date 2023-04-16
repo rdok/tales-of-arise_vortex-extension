@@ -1,7 +1,7 @@
 import path from "path";
 import { types } from "vortex-api";
 import { STEAMAPP_ID, TALESOFARISE_ID } from "./main";
-import { executablePath, modsPath, pakModsPath } from "./paths";
+import { executablePath, baseModsPath, pakModsPath } from "./paths";
 
 type Props = {
   gameStoreHelper: any;
@@ -28,7 +28,7 @@ export class GameRegistration {
         steamAppId: STEAMAPP_ID,
         nexusPageId: "talesofarise",
       },
-      queryModPath: () => modsPath(),
+      queryModPath: () => baseModsPath(),
       requiredFiles: [executablePath()],
       environment: { SteamAPPId: String(STEAMAPP_ID) },
       queryPath: () =>
