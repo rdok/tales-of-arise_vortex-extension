@@ -1,8 +1,13 @@
 import { makeMainFactory } from "../../jest/factories";
 import main from "../main";
 
-const { context, gameRegistration, game, pakInstallerRegistration } =
-  makeMainFactory();
+const {
+  context,
+  gameRegistration,
+  game,
+  pakInstallerRegistration,
+  pakInstallerRegistrationOutput,
+} = makeMainFactory();
 main(context, { gameRegistration, pakInstallerRegistration });
 
 describe("GameRegistration", () => {
@@ -20,7 +25,9 @@ describe("PakInstallerRegistration", () => {
     expect(pakInstallerRegistration.create).toHaveBeenCalled();
   });
 
-  // it("registers the game", () => {
-  //   expect(context.registerGame).toHaveBeenCalledWith(game);
-  // });
+  it("registers the pak installer", () => {
+    expect(context.registerInstaller).toHaveBeenCalledWith(
+      pakInstallerRegistrationOutput
+    );
+  });
 });

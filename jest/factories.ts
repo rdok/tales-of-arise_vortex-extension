@@ -48,15 +48,16 @@ export const makeMainFactory = () => {
     create: jest.fn().mockReturnValue(game),
   });
 
-  const installerRegistrationOutput = createMock<InstallerRegistrationOutput>();
+  const pakInstallerRegistrationOutput =
+    createMock<InstallerRegistrationOutput>();
   const pakInstallerRegistration = createMock<PakInstallerRegistration>({
-    create: jest.fn().mockReturnValue(installerRegistrationOutput),
+    create: jest.fn().mockReturnValue(pakInstallerRegistrationOutput),
   });
   return {
     ...makeVortexApi(),
     gameRegistration,
     game,
     pakInstallerRegistration,
-    installerRegistrationOutput,
+    pakInstallerRegistrationOutput,
   };
 };

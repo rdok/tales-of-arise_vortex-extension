@@ -16,10 +16,8 @@ const main = (context: any, props: Props) => {
   const game = gameRegistration.create();
   context.registerGame(game);
 
-  pakInstallerRegistration.create();
-  // const pakPriority = 25;
-
-  // context.registerInst
+  const pakInstaller = pakInstallerRegistration.create();
+  context.registerInstaller(pakInstaller);
 
   return true;
 };
