@@ -5,11 +5,11 @@ export const baseModsPath = () => {
 };
 
 export const pakModsPath = () => {
-  return path.join(baseModsPath(), "Content", "Paks", "~mods");
+  return path.join("Content", "Paks", "~mods");
 };
 
 export const usmModsPath = () => {
-  return path.join(baseModsPath(), "Content", "Binaries", "Movie", "Animation");
+  return path.join("Content", "Binaries", "Movie", "Animation");
 };
 
 export const executablePath = () => {

@@ -10,11 +10,11 @@ import {
 import { GameStoreHelper } from "vortex-api/lib/util/api";
 import { GameRegistration } from "../src/GameRegistration";
 import {
-  UsmInstallerRegistrationOutput,
+  PakInstallerRegistrationOutput,
   PakInstallerRegistration,
-} from "../src/installers/PakInstallerRegistration";
+} from "../src/installers";
 import { fs as vortexFs } from "vortex-api";
-import { UsmInstallerRegistration } from "../src/installers/UsmInstallerRegistration";
+import { UsmInstallerRegistration } from "../src/installers";
 
 export const makeVortexApi = () => {
   const registerGame = jest.fn();
@@ -55,13 +55,13 @@ export const makeMainFactory = () => {
   });
 
   const pakInstallerRegistrationOutput =
-    createMock<UsmInstallerRegistrationOutput>();
+    createMock<PakInstallerRegistrationOutput>();
   const pakInstallerRegistration = createMock<PakInstallerRegistration>({
     create: jest.fn().mockReturnValue(pakInstallerRegistrationOutput),
   });
 
   const usmInstallerRegistrationOutput =
-    createMock<UsmInstallerRegistrationOutput>();
+    createMock<PakInstallerRegistrationOutput>();
   const usmInstallerRegistration = createMock<UsmInstallerRegistration>({
     create: jest.fn().mockReturnValue(usmInstallerRegistrationOutput),
   });
@@ -77,12 +77,12 @@ export const makeMainFactory = () => {
 };
 
 export const makePathsFactory = () => {
-  const normalisedModsPath = "Arise";
-  const normalisedPakModsPath = "Arise/Content/Paks/~mods";
-  const normalisedUsmModsPath = "Arise/Content/Binaries/Movie/Animation";
+  const normalisedBaseModsPath = "Arise";
+  const normalisedPakModsPath = "Content/Paks/~mods";
+  const normalisedUsmModsPath = "Content/Binaries/Movie/Animation";
   const normalisedExecutablePath = "Arise/Binaries/Win64/Tales of Arise.exe";
   return {
-    normalisedModsPath,
+    normalisedBaseModsPath,
     normalisedPakModsPath,
     normalisedUsmModsPath,
     normalisedExecutablePath,

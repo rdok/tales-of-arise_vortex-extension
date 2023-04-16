@@ -4,7 +4,7 @@
     "url": "https://github.com/rdok/tales-of-arise_vortex-extension"
   },
   "name": "tales-of-arise_vortex-extension",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Tales of Arise Vortex extension support.",
   "scripts": {
     "prebuild": "rm -rf dist/",

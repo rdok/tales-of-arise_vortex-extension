@@ -7,8 +7,8 @@ import {
 import { makePathsFactory } from "../../jest/factories";
 
 it("normalises the mods path", () => {
-  const { normalisedModsPath } = makePathsFactory();
-  expect(baseModsPath()).toEqual(normalisedModsPath);
+  const { normalisedBaseModsPath } = makePathsFactory();
+  expect(baseModsPath()).toEqual(normalisedBaseModsPath);
 });
 
 it("normalises the executable path", () => {

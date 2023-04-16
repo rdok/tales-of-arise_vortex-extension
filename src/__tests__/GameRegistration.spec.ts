@@ -55,8 +55,8 @@ describe("Game registration", () => {
   });
 
   it("sets the mod installation path", () => {
-    const { normalisedModsPath } = makePathsFactory();
-    expect(game.queryModPath("")).toEqual(normalisedModsPath);
+    const { normalisedBaseModsPath } = makePathsFactory();
+    expect(game.queryModPath("")).toEqual(normalisedBaseModsPath);
   });
 
   it("clean ups empty directories", () => {

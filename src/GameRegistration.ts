@@ -39,7 +39,9 @@ export class GameRegistration {
       setup: (discovery: types.IDiscoveryResult) => {
         if (!discovery.path) throw new Error("`discovery.path` is undefined.");
 
-        return this.ensureDirAsync(path.join(discovery.path, pakModsPath()));
+        return this.ensureDirAsync(
+          path.join(discovery.path, baseModsPath(), pakModsPath())
+        );
       },
     };
   }

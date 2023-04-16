@@ -7,7 +7,7 @@ import {
 import { TALESOFARISE_ID } from "../main";
 import { pakModsPath } from "../paths";
 
-export type UsmInstallerRegistrationOutput = {
+export type PakInstallerRegistrationOutput = {
   installerName: string;
   priority: number;
   testSupportedContent: (files: string[]) => Promise<ISupportedResult>;
@@ -17,7 +17,7 @@ export type UsmInstallerRegistrationOutput = {
 export class PakInstallerRegistration {
   private modFileExt = ".pak";
 
-  create(): UsmInstallerRegistrationOutput {
+  create(): PakInstallerRegistrationOutput {
     const installerName = `${TALESOFARISE_ID}-PAK`;
     const priority = 25;
     const testSupportedContent = this.testSupportedContent;

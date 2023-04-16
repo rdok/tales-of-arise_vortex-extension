@@ -2,7 +2,10 @@ import { fs, types, util } from "vortex-api";
 
 import main from "./main";
 import { GameRegistration } from "./GameRegistration";
-import { PakInstallerRegistration } from "./PakInstallerRegistration";
+import {
+  PakInstallerRegistration,
+  UsmInstallerRegistration,
+} from "./installers";
 
 const index = (context: types.IExtensionContext) => {
   const gameStoreHelper = util.GameStoreHelper;
@@ -12,8 +15,13 @@ const index = (context: types.IExtensionContext) => {
     ensureDirAsync,
   });
   const pakInstallerRegistration = new PakInstallerRegistration();
+  const usmInstallerRegistration = new UsmInstallerRegistration();
 
-  return main(context, { gameRegistration, pakInstallerRegistration });
+  return main(context, {
+    gameRegistration,
+    pakInstallerRegistration,
+    usmInstallerRegistration,
+  });
 };
 
 export default index;
