@@ -1,9 +1,10 @@
 import { GameRegistration } from "../GameRegistration";
-import { makeContext } from "./factories";
+
+import { makeVortexApi } from "../../jest/factories";
 
 describe("Game registration", () => {
-  const { context, gameRegistration } = makeFactory();
-  gameRegistration.run(context);
+  const { context, gameRegistration, iGameStoreEntry } = makeFactory();
+  const game = gameRegistration.run(context);
 
   it("sets the id", async () => {
     expect(context.registerGame).toHaveBeenCalledWith(
@@ -57,10 +58,14 @@ describe("Game registration", () => {
       expect.objectContaining({ environment: { SteamAPPId: "740130" } })
     );
   });
+
+  it("finds the game on supported video game digital distributions: Steam", () => {
+    expect(game.queryModPath()).resolves.toEqual(iGameStoreEntry.gamePath);
+  });
 });
 
 function makeFactory() {
-  const { context } = makeContext();
-  const gameRegistration = new GameRegistration();
-  return { context, gameRegistration };
+  const { context, gameStoreHelper, iGameStoreEntry } = makeVortexApi();
+  const gameRegistration = new GameRegistration({ gameStoreHelper });
+  return { context, gameRegistration, gameStoreHelper, iGameStoreEntry };
 }
