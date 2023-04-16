@@ -6,7 +6,8 @@ import { GameRegistration } from "./GameRegistration";
 const index = (context: types.IExtensionContext) => {
   const gameStoreHelper = util.GameStoreHelper;
   const gameRegistration = new GameRegistration({ gameStoreHelper });
-  main(context, { gameRegistration });
+
+  return main(context, { gameRegistration });
 };
 
 export default index;

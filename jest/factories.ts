@@ -1,8 +1,13 @@
 import { createMock } from "ts-auto-mock";
 import { randWord } from "@ngneat/falso";
 
-import { IExtensionContext, IGameStoreEntry } from "vortex-api/lib/types/api";
+import {
+  IExtensionContext,
+  IGame,
+  IGameStoreEntry,
+} from "vortex-api/lib/types/api";
 import { GameStoreHelper } from "vortex-api/lib/util/api";
+import { GameRegistration } from "../src/GameRegistration";
 
 export const makeVortexApi = () => {
   const registerGame = jest.fn();
@@ -14,4 +19,12 @@ export const makeVortexApi = () => {
   });
 
   return { context, registerGame, gameStoreHelper, iGameStoreEntry };
+};
+
+export const makeMainFactory = () => {
+  const game = createMock<IGame>();
+  const gameRegistration = createMock<GameRegistration>({
+    create: jest.fn().mockReturnValue(game),
+  });
+  return { ...makeVortexApi(), gameRegistration, game };
 };

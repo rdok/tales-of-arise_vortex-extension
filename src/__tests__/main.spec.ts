@@ -1,28 +1,22 @@
-import { GameRegistration } from "../GameRegistration";
+import { makeMainFactory } from "../../jest/factories";
+import main from "../main";
 
-import { makeVortexApi } from "../../jest/factories";
-import { createMock } from "ts-auto-mock";
-import { IGame } from "vortex-api/lib/types/api";
+const { context, gameRegistration, game } = makeMainFactory();
 
-it("creates the game registration", async () => {
-  const { context, main, gameRegistration } = await makeFactory();
-  main(context, { gameRegistration });
-
-  expect(gameRegistration.create).toHaveBeenCalled();
-});
-
-it("registers the game", async () => {
-  const { context, main, gameRegistration, game } = await makeFactory();
-  main(context, { gameRegistration });
-
-  expect(context.registerGame).toHaveBeenCalledWith(game);
-});
-
-const makeFactory = async () => {
-  const main = (await import("../main")).default;
-  const game = createMock<IGame>();
-  const gameRegistration = createMock<GameRegistration>({
-    create: jest.fn().mockReturnValue(game),
+describe("GameRegistration", () => {
+  it("creates the game registration", () => {
+    expect(gameRegistration.create).toHaveBeenCalled();
   });
-  return { ...makeVortexApi(), main, gameRegistration, game };
-};
+
+  it("registers the game", () => {
+    expect(context.registerGame).toHaveBeenCalledWith(game);
+  });
+});
+
+describe("InstallerRegistration", () => {
+  main(context, { gameRegistration });
+
+  it("registers the PAK installer name", () => {
+    expect(context.registerInstaller).toHaveBeenCalledWith("talesofarise-PAK");
+  });
+});
