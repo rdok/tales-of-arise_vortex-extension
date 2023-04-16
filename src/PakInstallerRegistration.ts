@@ -5,7 +5,6 @@ import {
   ISupportedResult,
 } from "vortex-api/lib/types/api";
 import { TALESOFARISE_ID } from "./main";
-import { pathToPakMods } from "./paths";
 
 export type InstallerRegistrationOutput = {
   installerName: string;
@@ -44,7 +43,6 @@ export class PakInstallerRegistration {
     );
 
     if (!modFile) return Promise.resolve({ instructions: [] });
-
     const idx = modFile.indexOf(path.basename(modFile));
     const rootPath = path.dirname(modFile);
 
@@ -56,7 +54,7 @@ export class PakInstallerRegistration {
       (file): IInstruction => ({
         type: "copy",
         source: file,
-        destination: path.join(...pathToPakMods(), file.slice(idx)),
+        destination: path.join(file.slice(idx)),
       })
     );
 

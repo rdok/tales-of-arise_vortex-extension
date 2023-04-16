@@ -1,9 +1,9 @@
 import { PakInstallerRegistration } from "../PakInstallerRegistration";
 import { makeVortexApi } from "../../jest/factories";
-import { pathToPakModsFactory } from "./paths.spec";
+import { makePathsFactory } from "./paths.spec";
 
 describe("PakInstallerRegistration", () => {
-  const { installerRegistration, modPath } = makeFactory();
+  const { installerRegistration } = makeFactory();
   const { installerName, priority, testSupportedContent, installContent } =
     installerRegistration.create();
 
@@ -37,11 +37,7 @@ describe("PakInstallerRegistration", () => {
     it("installs valid files files", async () => {
       expect(await installContent(["lorem.pak"])).toEqual({
         instructions: [
-          {
-            destination: `${modPath}/lorem.pak`,
-            source: "lorem.pak",
-            type: "copy",
-          },
+          { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
         ],
       });
     });
@@ -51,16 +47,8 @@ describe("PakInstallerRegistration", () => {
         await installContent(["lorem.pak", "invalid", "path/ip.pak"])
       ).toEqual({
         instructions: [
-          {
-            destination: `${modPath}/lorem.pak`,
-            source: "lorem.pak",
-            type: "copy",
-          },
-          {
-            destination: `${modPath}/path/ip.pak`,
-            source: "path/ip.pak",
-            type: "copy",
-          },
+          { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
+          { destination: "path/ip.pak", source: "path/ip.pak", type: "copy" },
         ],
       });
     });
@@ -72,7 +60,7 @@ describe("PakInstallerRegistration", () => {
 });
 
 function makeFactory() {
-  const { path: modPath } = pathToPakModsFactory();
+  const { normalisedPakModsPath: modPath } = makePathsFactory();
   const { gameStoreHelper, iGameStoreEntry } = makeVortexApi();
   const installerRegistration = new PakInstallerRegistration();
   return {
