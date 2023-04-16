@@ -8,10 +8,15 @@ import {
 } from "vortex-api/lib/types/api";
 import { GameStoreHelper } from "vortex-api/lib/util/api";
 import { GameRegistration } from "../src/GameRegistration";
+import {
+  InstallerRegistration,
+  InstallerRegistrationOutput,
+} from "../src/InstallerRegistration";
 
 export const makeVortexApi = () => {
   const registerGame = jest.fn();
   const context = createMock<IExtensionContext>({ registerGame });
+  context.registerInstaller;
 
   const iGameStoreEntry = createMock<IGameStoreEntry>({ gamePath: randWord() });
   const gameStoreHelper = createMock<typeof GameStoreHelper>({
@@ -26,5 +31,16 @@ export const makeMainFactory = () => {
   const gameRegistration = createMock<GameRegistration>({
     create: jest.fn().mockReturnValue(game),
   });
-  return { ...makeVortexApi(), gameRegistration, game };
+
+  const installerRegistrationOutput = createMock<InstallerRegistrationOutput>();
+  const installerRegistration = createMock<InstallerRegistration>({
+    create: jest.fn().mockReturnValue(installerRegistrationOutput),
+  });
+  return {
+    ...makeVortexApi(),
+    gameRegistration,
+    game,
+    installerRegistration,
+    installerRegistrationOutput,
+  };
 };
