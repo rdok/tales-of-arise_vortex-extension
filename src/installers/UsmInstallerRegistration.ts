@@ -18,7 +18,7 @@ export class UsmInstallerRegistration {
 
   create(): InstallerRegistrationOutput {
     const installerName = `${TALESOFARISE_ID}-USM`;
-    const priority = 25;
+    const priority = 30;
     const testSupportedContent = this.testSupportedContent;
     const installContent = this.installContent;
 

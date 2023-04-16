@@ -10,9 +10,9 @@ describe("UsmInstallerRegistration", () => {
     expect(installerName).toEqual("talesofarise-USM");
   });
 
-  // it("sets the priority", async () => {
-  //   expect(priority).toEqual(25);
-  // });
+  it("sets the priority", async () => {
+    expect(priority).toEqual(30);
+  });
   //
   // describe("testSupported", () => {
   //   it("sets a valid content qualifier function", async () => {
