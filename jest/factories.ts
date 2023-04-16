@@ -10,14 +10,18 @@ import {
 import { GameStoreHelper } from "vortex-api/lib/util/api";
 import { GameRegistration } from "../src/GameRegistration";
 import {
-  PakInstallerRegistration,
   InstallerRegistrationOutput,
+  PakInstallerRegistration,
 } from "../src/PakInstallerRegistration";
 import { fs as vortexFs } from "vortex-api";
 
 export const makeVortexApi = () => {
   const registerGame = jest.fn();
-  const context = createMock<IExtensionContext>({ registerGame });
+  const registerInstaller = jest.fn();
+  const context = createMock<IExtensionContext>({
+    registerGame,
+    registerInstaller,
+  });
   const ensureDirAsyncOutput = jest.fn();
   const fs = createMock<typeof vortexFs>({
     ensureDirAsync: jest.fn().mockReturnValue(ensureDirAsyncOutput),
@@ -39,6 +43,7 @@ export const makeVortexApi = () => {
     fs,
     discovery,
     ensureDirAsyncOutput,
+    registerInstaller,
   };
 };
 

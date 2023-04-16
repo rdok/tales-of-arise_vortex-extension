@@ -1,7 +1,7 @@
 import path from "path";
 import { types } from "vortex-api";
-// import { types, util, fs } from "vortex-api";
 import { EXECUTABLE_PATH, STEAMAPP_ID, TALESOFARISE_ID } from "./main";
+import { pathToPakMods } from "./paths";
 
 type Props = {
   gameStoreHelper: any;
@@ -40,7 +40,7 @@ export class GameRegistration {
         if (!discovery.path) throw new Error("`discovery.path` is undefined.");
 
         return this.ensureDirAsync(
-          path.join(discovery.path, "Arise", "Content", "Paks", "~mods")
+          path.join(discovery.path, ...pathToPakMods())
         );
       },
     };
