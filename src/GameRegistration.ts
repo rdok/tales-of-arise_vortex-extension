@@ -1,7 +1,7 @@
 import path from "path";
 import { types } from "vortex-api";
 import { STEAMAPP_ID, TALESOFARISE_ID } from "./main";
-import { executablePath, pakModsPath } from "./paths";
+import { executablePath, baseModsPath, pakModsPath } from "./paths";
 
 type Props = {
   gameStoreHelper: any;
@@ -28,7 +28,7 @@ export class GameRegistration {
         steamAppId: STEAMAPP_ID,
         nexusPageId: "talesofarise",
       },
-      queryModPath: () => pakModsPath(),
+      queryModPath: () => baseModsPath(),
       requiredFiles: [executablePath()],
       environment: { SteamAPPId: String(STEAMAPP_ID) },
       queryPath: () =>
@@ -39,7 +39,9 @@ export class GameRegistration {
       setup: (discovery: types.IDiscoveryResult) => {
         if (!discovery.path) throw new Error("`discovery.path` is undefined.");
 
-        return this.ensureDirAsync(path.join(discovery.path, pakModsPath()));
+        return this.ensureDirAsync(
+          path.join(discovery.path, baseModsPath(), pakModsPath())
+        );
       },
     };
   }

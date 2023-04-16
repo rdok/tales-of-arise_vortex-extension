@@ -1,22 +1,22 @@
-import { PakInstallerRegistration } from "../PakInstallerRegistration";
-import { makePathsFactory, makeVortexApi } from "../../jest/factories";
+import { makePathsFactory, makeVortexApi } from "../../../jest/factories";
+import { UsmInstallerRegistration } from "../UsmInstallerRegistration";
 
-describe("PakInstallerRegistration", () => {
+describe("UsmInstallerRegistration", () => {
   const { installerRegistration } = makeFactory();
   const { installerName, priority, testSupportedContent, installContent } =
     installerRegistration.create();
 
   it("sets the installer name", async () => {
-    expect(installerName).toEqual("talesofarise-PAK");
+    expect(installerName).toEqual("talesofarise-USM");
   });
 
   it("sets the priority", async () => {
-    expect(priority).toEqual(25);
+    expect(priority).toEqual(30);
   });
 
   describe("testSupported", () => {
     it("sets a valid content qualifier function", async () => {
-      expect(await testSupportedContent(["lorem.pAk"])).toEqual({
+      expect(await testSupportedContent(["lorem.UsM"])).toEqual({
         requiredFiles: [],
         supported: true,
       });
@@ -25,7 +25,7 @@ describe("PakInstallerRegistration", () => {
     it("sets an invalid content qualifier function", async () => {
       const { installerRegistration } = makeInvalidContentQualifierFactory();
       const { testSupportedContent } = installerRegistration.create();
-      expect(await testSupportedContent([])).toEqual({
+      expect(await testSupportedContent(["lorem.invalid"])).toEqual({
         requiredFiles: [],
         supported: false,
       });
@@ -33,21 +33,35 @@ describe("PakInstallerRegistration", () => {
   });
 
   describe("installContent", () => {
-    it("installs valid files files", async () => {
-      expect(await installContent(["lorem.pak"])).toEqual({
+    const { normalisedUsmModsPath } = makePathsFactory();
+
+    it("installs valid files", async () => {
+      expect(await installContent(["lorem.usm"])).toEqual({
         instructions: [
-          { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
+          {
+            destination: `${normalisedUsmModsPath}/lorem.usm`,
+            source: "lorem.usm",
+            type: "copy",
+          },
         ],
       });
     });
 
     it("filters invalid files", async () => {
       expect(
-        await installContent(["lorem.pak", "invalid", "path/ip.pak"])
+        await installContent(["lorem.usm", "invalid", "path/ip.usm"])
       ).toEqual({
         instructions: [
-          { destination: "lorem.pak", source: "lorem.pak", type: "copy" },
-          { destination: "path/ip.pak", source: "path/ip.pak", type: "copy" },
+          {
+            destination: `${normalisedUsmModsPath}/lorem.usm`,
+            source: "lorem.usm",
+            type: "copy",
+          },
+          {
+            destination: `${normalisedUsmModsPath}/path/ip.usm`,
+            source: "path/ip.usm",
+            type: "copy",
+          },
         ],
       });
     });
@@ -59,14 +73,12 @@ describe("PakInstallerRegistration", () => {
 });
 
 function makeFactory() {
-  const { normalisedPakModsPath: modPath } = makePathsFactory();
   const { gameStoreHelper, iGameStoreEntry } = makeVortexApi();
-  const installerRegistration = new PakInstallerRegistration();
+  const installerRegistration = new UsmInstallerRegistration();
   return {
     installerRegistration,
     gameStoreHelper,
     iGameStoreEntry,
-    modPath,
   };
 }
 

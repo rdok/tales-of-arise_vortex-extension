@@ -4,9 +4,10 @@ import {
   IInstruction,
   ISupportedResult,
 } from "vortex-api/lib/types/api";
-import { TALESOFARISE_ID } from "./main";
+import { TALESOFARISE_ID } from "../main";
+import { pakModsPath } from "../paths";
 
-export type InstallerRegistrationOutput = {
+export type PakInstallerRegistrationOutput = {
   installerName: string;
   priority: number;
   testSupportedContent: (files: string[]) => Promise<ISupportedResult>;
@@ -16,7 +17,7 @@ export type InstallerRegistrationOutput = {
 export class PakInstallerRegistration {
   private modFileExt = ".pak";
 
-  create(): InstallerRegistrationOutput {
+  create(): PakInstallerRegistrationOutput {
     const installerName = `${TALESOFARISE_ID}-PAK`;
     const priority = 25;
     const testSupportedContent = this.testSupportedContent;
@@ -54,7 +55,7 @@ export class PakInstallerRegistration {
       (file): IInstruction => ({
         type: "copy",
         source: file,
-        destination: path.join(file.slice(idx)),
+        destination: path.join(pakModsPath(), file.slice(idx)),
       })
     );
 

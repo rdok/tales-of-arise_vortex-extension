@@ -55,8 +55,8 @@ describe("Game registration", () => {
   });
 
   it("sets the mod installation path", () => {
-    const { normalisedPakModsPath } = makePathsFactory();
-    expect(game.queryModPath("")).toEqual(normalisedPakModsPath);
+    const { normalisedBaseModsPath } = makePathsFactory();
+    expect(game.queryModPath("")).toEqual(normalisedBaseModsPath);
   });
 
   it("clean ups empty directories", () => {
@@ -69,7 +69,7 @@ describe("Game registration", () => {
         ensureDirAsyncOutput
       );
     });
-    it("checks the right directory", () => {
+    it("checks the pak mods directory exists", () => {
       expect(fs.ensureDirAsync).toHaveBeenCalledWith(
         "~/steamapps/common/Tales of Arise/Arise/Content/Paks/~mods"
       );
