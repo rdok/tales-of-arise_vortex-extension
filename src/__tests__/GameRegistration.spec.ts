@@ -1,5 +1,3 @@
-import { createMock } from "ts-auto-mock";
-import { IExtensionContext } from "vortex-api/lib/types/api";
 import { GameRegistration } from "../GameRegistration";
 import { makeContext } from "./factories";
 

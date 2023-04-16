@@ -1,5 +1,7 @@
 import { IExtensionContext } from "vortex-api/lib/types/IExtensionContext";
-import { EXECUTABLE_PATH, STEAM_APP_ID } from "./config";
+
+export const EXECUTABLE_PATH = "Arise\\Binaries\\Win64\\Tales of Arise.exe";
+export const STEAM_APP_ID = 740130;
 
 export class GameRegistration {
   run(context: IExtensionContext) {
