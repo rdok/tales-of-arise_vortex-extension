@@ -1,17 +1,12 @@
-import { types } from "vortex-api";
+import { types, util } from "vortex-api";
 
-const main = ({ registerAction, api }: types.IExtensionContext) => {
-  registerAction("global-icons", 100, "menu", {}, "Sample", () => {
-    api.showDialog &&
-      api.showDialog(
-        "info",
-        "Success!",
-        {
-          text: "Hello World",
-        },
-        [{ label: "Close" }]
-      );
+import { GameRegistration } from "./GameRegistration";
+
+const main = (context: types.IExtensionContext) => {
+  const gameRegistration = new GameRegistration({
+    gameStoreHelper: util.GameStoreHelper,
   });
+  gameRegistration.run(context);
   return true;
 };
 
