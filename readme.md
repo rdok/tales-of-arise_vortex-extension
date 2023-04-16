@@ -6,6 +6,7 @@
 ### Develop
 
 - Use Window's Ubuntu WSL to develop.
+- See `Makefile` for commands such as running all CI checks & bundling production.
 - The Jest version is held back due to https://github.com/Typescript-TDD/jest-ts-auto-mock#requirements
 
 ### Sources
