@@ -12,7 +12,7 @@ import { GameRegistration } from "../src/GameRegistration";
 import {
   InstallerRegistrationOutput,
   PakInstallerRegistration,
-} from "../src/PakInstallerRegistration";
+} from "../src/installers/PakInstallerRegistration";
 import { fs as vortexFs } from "vortex-api";
 
 export const makeVortexApi = () => {

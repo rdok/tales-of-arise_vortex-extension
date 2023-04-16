@@ -1,5 +1,5 @@
 import { GameRegistration } from "./GameRegistration";
-import { PakInstallerRegistration } from "./PakInstallerRegistration";
+import { PakInstallerRegistration } from "./installers/PakInstallerRegistration";
 
 type Props = {
   gameRegistration: GameRegistration;

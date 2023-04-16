@@ -4,7 +4,7 @@ import {
   IInstruction,
   ISupportedResult,
 } from "vortex-api/lib/types/api";
-import { TALESOFARISE_ID } from "./main";
+import { TALESOFARISE_ID } from "../main";
 
 export type InstallerRegistrationOutput = {
   installerName: string;
