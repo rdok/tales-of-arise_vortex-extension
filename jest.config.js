@@ -5,6 +5,9 @@ module.exports = {
   testMatch: ["**/?(*.)+(spec).ts"],
   testPathIgnorePatterns: ["<rootDir>/node_modules", "<rootDir>/dist"],
   transformIgnorePatterns: ["^.+\\.js$", "node_modules"],
+  setupFilesAfterEnv: ["<rootDir>/jest/setupFilesAfterEnv.ts"],
+  setupFiles: ["<rootDir>/jest/setupFiles.ts"],
+  modulePaths: ["<rootDir>/jest/factories"],
   transform: {
     ".(ts|tsx)": "ts-jest",
   },
