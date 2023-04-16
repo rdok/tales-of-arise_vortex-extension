@@ -16,7 +16,17 @@ describe("GameRegistration", () => {
 describe("InstallerRegistration", () => {
   main(context, { gameRegistration });
 
-  it("registers the PAK installer name", () => {
-    expect(context.registerInstaller).toHaveBeenCalledWith("talesofarise-PAK");
+  it("sets the PAK installer name", () => {
+    expect(context.registerInstaller).toHaveBeenCalledWith(
+      "talesofarise-PAK",
+      expect.anything()
+    );
+  });
+
+  it("sets the PAK priority", () => {
+    expect(context.registerInstaller).toHaveBeenCalledWith(
+      expect.anything(),
+      25
+    );
   });
 });
