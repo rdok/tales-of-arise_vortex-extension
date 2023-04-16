@@ -1,7 +1,9 @@
 import { makeMainFactory } from "../../jest/factories";
 import main from "../main";
 
-const { context, gameRegistration, game } = makeMainFactory();
+const { context, gameRegistration, game, pakInstallerRegistration } =
+  makeMainFactory();
+main(context, { gameRegistration, pakInstallerRegistration });
 
 describe("GameRegistration", () => {
   it("creates the game registration", () => {
@@ -13,20 +15,12 @@ describe("GameRegistration", () => {
   });
 });
 
-describe("InstallerRegistration", () => {
-  main(context, { gameRegistration });
-
-  it("sets the PAK installer name", () => {
-    expect(context.registerInstaller).toHaveBeenCalledWith(
-      "talesofarise-PAK",
-      expect.anything()
-    );
+describe("PakInstallerRegistration", () => {
+  it("creates the pak installer registration", () => {
+    expect(pakInstallerRegistration.create).toHaveBeenCalled();
   });
 
-  it("sets the PAK priority", () => {
-    expect(context.registerInstaller).toHaveBeenCalledWith(
-      expect.anything(),
-      25
-    );
-  });
+  // it("registers the game", () => {
+  //   expect(context.registerGame).toHaveBeenCalledWith(game);
+  // });
 });

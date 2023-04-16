@@ -1,19 +1,25 @@
 import { GameRegistration } from "./GameRegistration";
+import { PakInstallerRegistration } from "./PakInstallerRegistration";
 
-type Props = { gameRegistration: GameRegistration };
+type Props = {
+  gameRegistration: GameRegistration;
+  pakInstallerRegistration: PakInstallerRegistration;
+};
 
 export const EXECUTABLE_PATH = "Arise\\Binaries\\Win64\\Tales of Arise.exe";
 export const STEAMAPP_ID = 740130;
-export const ID = "talesofarise";
+export const TALESOFARISE_ID = "talesofarise";
 
 const main = (context: any, props: Props) => {
-  const { gameRegistration } = props;
+  const { gameRegistration, pakInstallerRegistration } = props;
 
   const game = gameRegistration.create();
   context.registerGame(game);
 
-  const pakPriority = 25;
-  context.registerInstaller(`${ID}-PAK`, pakPriority);
+  pakInstallerRegistration.create();
+  // const pakPriority = 25;
+
+  // context.registerInst
 
   return true;
 };

@@ -7,8 +7,6 @@ import {
 } from "vortex-api/lib/types/api";
 import { TALESOFARISE_ID } from "./main";
 
-type Props = { gameStoreHelper: typeof util.GameStoreHelper };
-
 export type InstallerRegistrationOutput = {
   installerName: string;
   priority: number;
@@ -16,13 +14,8 @@ export type InstallerRegistrationOutput = {
   installContent: (files: string[]) => Promise<IInstallResult>;
 };
 
-export class InstallerRegistration {
-  private gameStoreHelper: any;
+export class PakInstallerRegistration {
   private modFileExt = ".pak";
-
-  constructor(props: Props) {
-    this.gameStoreHelper = props.gameStoreHelper;
-  }
 
   create(): InstallerRegistrationOutput {
     const installerName = `${TALESOFARISE_ID}-PAK`;

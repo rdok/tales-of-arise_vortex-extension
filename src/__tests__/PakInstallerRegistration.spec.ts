@@ -1,4 +1,4 @@
-import { InstallerRegistration } from "../InstallerRegistration";
+import { PakInstallerRegistration } from "../PakInstallerRegistration";
 import { makeVortexApi } from "../../jest/factories";
 
 describe("InstallerRegistration", () => {
@@ -60,8 +60,12 @@ describe("InstallerRegistration", () => {
 
 function makeFactory() {
   const { gameStoreHelper, iGameStoreEntry } = makeVortexApi();
-  const installerRegistration = new InstallerRegistration({ gameStoreHelper });
-  return { installerRegistration, gameStoreHelper, iGameStoreEntry };
+  const installerRegistration = new PakInstallerRegistration();
+  return {
+    installerRegistration: installerRegistration,
+    gameStoreHelper,
+    iGameStoreEntry,
+  };
 }
 
 function makeInvalidContentQualifierFactory() {
