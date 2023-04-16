@@ -6,6 +6,7 @@ build: node_modules
 
 export VERSION=$(shell jq -r .version package.json)
 bundle: build
+	sed -i '/version/c\  \"version\" : \"${VERSION}\",' info.json
 	cd dist && tar --create --verbose --file ../tales-of-arise-$${VERSION}.zip * && cd -
 
 update-yarn:
