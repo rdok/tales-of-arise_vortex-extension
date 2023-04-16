@@ -1,13 +1,9 @@
 import { types, util } from "vortex-api";
 
-import { GameRegistration } from "./GameRegistration";
-const gameStoreHelper = util.GameStoreHelper;
-const gameRegistration = new GameRegistration({ gameStoreHelper });
+import main from "./main";
 
-const main = (context: types.IExtensionContext) => {
-  const game = gameRegistration.create();
-  context.registerGame(game);
-  return true;
+const index = (context: types.IExtensionContext) => {
+  main(context, { gameStoreHelper: util.GameStoreHelper });
 };
 
-export default main;
+export default index;
