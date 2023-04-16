@@ -17,7 +17,12 @@ const main = (context: any, props: Props) => {
   context.registerGame(game);
 
   const pakInstaller = pakInstallerRegistration.create();
-  context.registerInstaller(pakInstaller);
+  context.registerInstaller(
+    pakInstaller.installerName,
+    pakInstaller.priority,
+    pakInstaller.testSupportedContent,
+    pakInstaller.installContent
+  );
 
   return true;
 };
