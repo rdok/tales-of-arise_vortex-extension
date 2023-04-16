@@ -6,7 +6,7 @@ build: node_modules
 
 export VERSION=$(shell jq -r .version package.json)
 bundle: build
-	sed -i '/version/c\  \"version\" : \"${VERSION}\",' info.json
+	sed -i '/version/c\  \"version\": \"${VERSION}\",' info.json
 	./node_modules/7z-bin/linux/7zzs  a  tales-of-arise-$${VERSION}.7z ./dist/*
 
 update-yarn:
