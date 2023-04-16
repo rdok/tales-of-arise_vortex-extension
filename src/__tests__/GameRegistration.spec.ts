@@ -1,6 +1,7 @@
 import { GameRegistration } from "../GameRegistration";
 
 import { makeVortexApi } from "../../jest/factories";
+import { makePathsFactory } from "./paths.spec";
 
 describe("Game registration", () => {
   const {
@@ -12,6 +13,10 @@ describe("Game registration", () => {
   } = makeFactory();
   const game = gameRegistration.create();
 
+  it("configures mods to be installed on the same folder", async () => {
+    expect(game).toMatchObject({ mergeMods: true });
+  });
+
   it("sets the id", async () => {
     expect(game).toMatchObject({ id: "talesofarise" });
   });
@@ -21,9 +26,8 @@ describe("Game registration", () => {
   });
 
   it("sets the executable", async () => {
-    expect(game.executable()).toEqual(
-      "Arise\\Binaries\\Win64\\Tales of Arise.exe"
-    );
+    const { normalisedExecutablePath } = makePathsFactory();
+    expect(game.executable()).toEqual(normalisedExecutablePath);
   });
 
   it("sets the logo", async () => {
@@ -37,8 +41,9 @@ describe("Game registration", () => {
   });
 
   it("sets the requires files", async () => {
+    const { normalisedExecutablePath } = makePathsFactory();
     expect(game).toMatchObject({
-      requiredFiles: ["Arise\\Binaries\\Win64\\Tales of Arise.exe"],
+      requiredFiles: [normalisedExecutablePath],
     });
   });
 
@@ -51,7 +56,8 @@ describe("Game registration", () => {
   });
 
   it("sets the mod installation path", () => {
-    expect(game.queryModPath("any")).toEqual(".");
+    const { normalisedPakModsPath } = makePathsFactory();
+    expect(game.queryModPath("")).toEqual(normalisedPakModsPath);
   });
 
   it("clean ups empty directories", () => {

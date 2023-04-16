@@ -1,7 +1,7 @@
 import path from "path";
 import { types } from "vortex-api";
-import { EXECUTABLE_PATH, STEAMAPP_ID, TALESOFARISE_ID } from "./main";
-import { pathToPakMods } from "./paths";
+import { STEAMAPP_ID, TALESOFARISE_ID } from "./main";
+import { executablePath, pakModsPath } from "./paths";
 
 type Props = {
   gameStoreHelper: any;
@@ -21,15 +21,15 @@ export class GameRegistration {
     return {
       id: TALESOFARISE_ID,
       name: "Tales of Arise",
-      mergeMods: false,
-      executable: () => EXECUTABLE_PATH,
+      mergeMods: true,
+      executable: () => executablePath(),
       logo: "game_art.jpg",
       details: {
         steamAppId: STEAMAPP_ID,
         nexusPageId: "talesofarise",
       },
-      queryModPath: () => ".",
-      requiredFiles: [EXECUTABLE_PATH],
+      queryModPath: () => pakModsPath(),
+      requiredFiles: [executablePath()],
       environment: { SteamAPPId: String(STEAMAPP_ID) },
       queryPath: () =>
         this.gameStoreHelper
@@ -39,9 +39,7 @@ export class GameRegistration {
       setup: (discovery: types.IDiscoveryResult) => {
         if (!discovery.path) throw new Error("`discovery.path` is undefined.");
 
-        return this.ensureDirAsync(
-          path.join(discovery.path, ...pathToPakMods())
-        );
+        return this.ensureDirAsync(path.join(discovery.path, pakModsPath()));
       },
     };
   }
