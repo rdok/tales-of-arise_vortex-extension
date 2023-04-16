@@ -12,8 +12,8 @@ export class GameRegistration {
     this.gameStoreHelper = props.gameStoreHelper;
   }
 
-  run(context: types.IExtensionContext) {
-    const game: types.IGame = {
+  create(): types.IGame {
+    return {
       id: "talesofarise",
       name: "Tales of Arise",
       mergeMods: false,
@@ -32,9 +32,5 @@ export class GameRegistration {
           .then((game: types.IGameStoreEntry) => game.gamePath),
       requiresCleanup: true,
     };
-
-    context.registerGame(game);
-
-    return game;
   }
 }
