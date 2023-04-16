@@ -55,9 +55,9 @@ describe("Game registration", () => {
     );
   });
 
-  it("sets the game installation path", () => {
+  it("sets the game installation path", async () => {
     if (!game.queryPath) throw new Error("game.queryPath should be defined");
-    expect(game.queryPath()).resolves.toEqual(iGameStoreEntry.gamePath);
+    expect(await game.queryPath()).toEqual(iGameStoreEntry.gamePath);
   });
 
   it("sets the mod installation path", () => {
