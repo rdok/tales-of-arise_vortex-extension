@@ -55,8 +55,17 @@ describe("Game registration", () => {
     );
   });
 
-  it("finds the game on supported video game digital distributions: Steam", () => {
-    expect(game.queryModPath()).resolves.toEqual(iGameStoreEntry.gamePath);
+  it("sets the game installation path", () => {
+    if (!game.queryPath) throw new Error("game.queryPath should be defined");
+    expect(game.queryPath()).resolves.toEqual(iGameStoreEntry.gamePath);
+  });
+
+  it("sets the mod installation path", () => {
+    expect(game.queryModPath("any")).toEqual(".");
+  });
+
+  it("clean ups empty directories", () => {
+    expect(game.requiresCleanup).toBeTruthy();
   });
 });
 

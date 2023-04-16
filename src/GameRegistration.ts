@@ -1,10 +1,9 @@
-import { IGameStoreEntry, IExtensionContext } from "vortex-api/lib/types/api";
-import { GameStoreHelper } from "vortex-api/lib/util/api";
+import { types, util } from "vortex-api";
 
 export const EXECUTABLE_PATH = "Arise\\Binaries\\Win64\\Tales of Arise.exe";
 export const STEAMAPP_ID = 740130;
 
-type Props = { gameStoreHelper: typeof GameStoreHelper };
+type Props = { gameStoreHelper: typeof util.GameStoreHelper };
 
 export class GameRegistration {
   private gameStoreHelper: any;
@@ -13,8 +12,8 @@ export class GameRegistration {
     this.gameStoreHelper = props.gameStoreHelper;
   }
 
-  run(context: IExtensionContext) {
-    const game = {
+  run(context: types.IExtensionContext) {
+    const game: types.IGame = {
       id: "talesofarise",
       name: "Tales of Arise",
       mergeMods: false,
@@ -24,12 +23,14 @@ export class GameRegistration {
         steamAppId: STEAMAPP_ID,
         nexusPageId: "talesofarise",
       },
-      queryModPath: () =>
-        this.gameStoreHelper
-          .findByAppId([String(STEAMAPP_ID)])
-          .then((game: IGameStoreEntry) => game.gamePath),
+      queryModPath: () => ".",
       requiredFiles: [EXECUTABLE_PATH],
       environment: { SteamAPPId: String(STEAMAPP_ID) },
+      queryPath: () =>
+        this.gameStoreHelper
+          .findByAppId([String(STEAMAPP_ID)])
+          .then((game: types.IGameStoreEntry) => game.gamePath),
+      requiresCleanup: true,
     };
 
     context.registerGame(game);
