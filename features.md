@@ -1,3 +1,6 @@
 # Tales of Arise Vortex Extension
 
-- Supports mod types: engine injector
+### Supports mode types
+
+- Engine Injector
+- PAK (UE4)

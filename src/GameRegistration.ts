@@ -1,40 +1,46 @@
-import { types, util } from "vortex-api";
+import path from "path";
+import { types } from "vortex-api";
+import { STEAMAPP_ID, TALESOFARISE_ID } from "./main";
+import { executablePath, pakModsPath } from "./paths";
 
-export const EXECUTABLE_PATH = "Arise\\Binaries\\Win64\\Tales of Arise.exe";
-export const STEAMAPP_ID = 740130;
-
-type Props = { gameStoreHelper: typeof util.GameStoreHelper };
+type Props = {
+  gameStoreHelper: any;
+  ensureDirAsync: any;
+};
 
 export class GameRegistration {
   private gameStoreHelper: any;
+  private ensureDirAsync: any;
 
   constructor(props: Props) {
     this.gameStoreHelper = props.gameStoreHelper;
+    this.ensureDirAsync = props.ensureDirAsync;
   }
 
-  run(context: types.IExtensionContext) {
-    const game: types.IGame = {
-      id: "talesofarise",
+  create(): types.IGame {
+    return {
+      id: TALESOFARISE_ID,
       name: "Tales of Arise",
-      mergeMods: false,
-      executable: () => EXECUTABLE_PATH,
+      mergeMods: true,
+      executable: () => executablePath(),
       logo: "game_art.jpg",
       details: {
         steamAppId: STEAMAPP_ID,
         nexusPageId: "talesofarise",
       },
-      queryModPath: () => ".",
-      requiredFiles: [EXECUTABLE_PATH],
+      queryModPath: () => pakModsPath(),
+      requiredFiles: [executablePath()],
       environment: { SteamAPPId: String(STEAMAPP_ID) },
       queryPath: () =>
         this.gameStoreHelper
           .findByAppId([String(STEAMAPP_ID)])
           .then((game: types.IGameStoreEntry) => game.gamePath),
       requiresCleanup: true,
+      setup: (discovery: types.IDiscoveryResult) => {
+        if (!discovery.path) throw new Error("`discovery.path` is undefined.");
+
+        return this.ensureDirAsync(path.join(discovery.path, pakModsPath()));
+      },
     };
-
-    context.registerGame(game);
-
-    return game;
   }
 }

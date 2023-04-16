@@ -1,13 +1,19 @@
-import { types, util } from "vortex-api";
+import { fs, types, util } from "vortex-api";
 
+import main from "./main";
 import { GameRegistration } from "./GameRegistration";
+import { PakInstallerRegistration } from "./PakInstallerRegistration";
 
-const main = (context: types.IExtensionContext) => {
+const index = (context: types.IExtensionContext) => {
+  const gameStoreHelper = util.GameStoreHelper;
+  const ensureDirAsync = fs.ensureDirAsync;
   const gameRegistration = new GameRegistration({
-    gameStoreHelper: util.GameStoreHelper,
+    gameStoreHelper,
+    ensureDirAsync,
   });
-  gameRegistration.run(context);
-  return true;
+  const pakInstallerRegistration = new PakInstallerRegistration();
+
+  return main(context, { gameRegistration, pakInstallerRegistration });
 };
 
-export default main;
+export default index;
