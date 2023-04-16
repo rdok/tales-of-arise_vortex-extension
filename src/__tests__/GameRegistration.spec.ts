@@ -1,6 +1,7 @@
 import { createMock } from "ts-auto-mock";
-import { IExtensionContext } from "vortex-api/lib/types/IExtensionContext";
+import { IExtensionContext } from "vortex-api/lib/types/api";
 import { GameRegistration } from "../GameRegistration";
+import { makeContext } from "./factories";
 
 describe("Game registration", () => {
   const { context, gameRegistration } = makeFactory();
@@ -61,7 +62,7 @@ describe("Game registration", () => {
 });
 
 function makeFactory() {
-  const context = createMock<IExtensionContext>({ registerGame: jest.fn() });
+  const { context } = makeContext();
   const gameRegistration = new GameRegistration();
-  return { context: context, gameRegistration };
+  return { context, gameRegistration };
 }
