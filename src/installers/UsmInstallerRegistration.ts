@@ -14,7 +14,7 @@ export type InstallerRegistrationOutput = {
 };
 
 export class UsmInstallerRegistration {
-  private modFileExt = ".pak";
+  private modFileExt = ".usm";
 
   create(): InstallerRegistrationOutput {
     const installerName = `${TALESOFARISE_ID}-USM`;

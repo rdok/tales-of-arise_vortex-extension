@@ -13,24 +13,24 @@ describe("UsmInstallerRegistration", () => {
   it("sets the priority", async () => {
     expect(priority).toEqual(30);
   });
-  //
-  // describe("testSupported", () => {
-  //   it("sets a valid content qualifier function", async () => {
-  //     expect(await testSupportedContent(["lorem.pAk"])).toEqual({
-  //       requiredFiles: [],
-  //       supported: true,
-  //     });
-  //   });
-  //
-  //   it("sets an invalid content qualifier function", async () => {
-  //     const { installerRegistration } = makeInvalidContentQualifierFactory();
-  //     const { testSupportedContent } = installerRegistration.create();
-  //     expect(await testSupportedContent([])).toEqual({
-  //       requiredFiles: [],
-  //       supported: false,
-  //     });
-  //   });
-  // });
+
+  describe("testSupported", () => {
+    it("sets a valid content qualifier function", async () => {
+      expect(await testSupportedContent(["lorem.UsM"])).toEqual({
+        requiredFiles: [],
+        supported: true,
+      });
+    });
+
+    // it("sets an invalid content qualifier function", async () => {
+    //   const { installerRegistration } = makeInvalidContentQualifierFactory();
+    //   const { testSupportedContent } = installerRegistration.create();
+    //   expect(await testSupportedContent([])).toEqual({
+    //     requiredFiles: [],
+    //     supported: false,
+    //   });
+    // });
+  });
   //
   // describe("installContent", () => {
   //   it("installs valid files files", async () => {
