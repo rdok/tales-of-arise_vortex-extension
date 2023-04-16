@@ -14,7 +14,7 @@ describe("InstallerRegistration", () => {
     expect(priority).toEqual(25);
   });
 
-  describe("testSupportedContent", () => {
+  describe("testSupported", () => {
     it("sets a valid content qualifier function", async () => {
       expect(await testSupportedContent(["lorem.pAk"])).toEqual({
         requiredFiles: [],
@@ -63,6 +63,7 @@ function makeFactory() {
   const installerRegistration = new InstallerRegistration({ gameStoreHelper });
   return { installerRegistration, gameStoreHelper, iGameStoreEntry };
 }
+
 function makeInvalidContentQualifierFactory() {
   const factory = makeFactory();
 

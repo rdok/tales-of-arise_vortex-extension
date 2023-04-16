@@ -1,8 +1,20 @@
 import path from "path";
 import { util } from "vortex-api";
+import {
+  IInstallResult,
+  IInstruction,
+  ISupportedResult,
+} from "vortex-api/lib/types/api";
 import { TALESOFARISE_ID } from "./main";
 
 type Props = { gameStoreHelper: typeof util.GameStoreHelper };
+
+export type InstallerRegistrationOutput = {
+  installerName: string;
+  priority: number;
+  testSupportedContent: (files: string[]) => Promise<ISupportedResult>;
+  installContent: (files: string[]) => Promise<IInstallResult>;
+};
 
 export class InstallerRegistration {
   private gameStoreHelper: any;
@@ -12,7 +24,7 @@ export class InstallerRegistration {
     this.gameStoreHelper = props.gameStoreHelper;
   }
 
-  create() {
+  create(): InstallerRegistrationOutput {
     const installerName = `${TALESOFARISE_ID}-PAK`;
     const priority = 25;
     const testSupportedContent = this.testSupportedContent;
@@ -33,7 +45,7 @@ export class InstallerRegistration {
     });
   };
 
-  installContent = (files: string[]) => {
+  installContent = (files: string[]): Promise<IInstallResult> => {
     const modFile = files.find(
       (file) => path.extname(file).toLowerCase() === this.modFileExt
     );
@@ -47,13 +59,13 @@ export class InstallerRegistration {
       (file) => file.indexOf(rootPath) !== -1 && !file.endsWith(path.sep)
     );
 
-    const instructions = filtered.map((file) => {
-      return {
+    const instructions = filtered.map(
+      (file): IInstruction => ({
         type: "copy",
         source: file,
-        destination: path.join(file.substr(idx)),
-      };
-    });
+        destination: path.join(file.slice(idx)),
+      })
+    );
 
     return Promise.resolve({ instructions });
   };
