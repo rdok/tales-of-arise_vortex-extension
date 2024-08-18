@@ -2,7 +2,8 @@ import path from "path";
 import {
   IInstallResult,
   IInstruction,
-  ISupportedResult,
+  InstallFunc,
+  TestSupported,
 } from "vortex-api/lib/types/api";
 import { TALESOFARISE_ID } from "../main";
 import { pakModsPath } from "../paths";
@@ -10,8 +11,8 @@ import { pakModsPath } from "../paths";
 export type PakInstallerRegistrationOutput = {
   installerName: string;
   priority: number;
-  testSupportedContent: (files: string[]) => Promise<ISupportedResult>;
-  installContent: (files: string[]) => Promise<IInstallResult>;
+  testSupportedContent: TestSupported;
+  installContent: InstallFunc;
 };
 
 export class PakInstallerRegistration {
@@ -26,11 +27,24 @@ export class PakInstallerRegistration {
     return { installerName, priority, testSupportedContent, installContent };
   }
 
-  testSupportedContent = (files: string[]) => {
+  testSupportedContent: TestSupported = (files: string[], gameId: string) => {
+    if (gameId !== TALESOFARISE_ID) {
+      console.debug(
+        `${TALESOFARISE_ID}.${PakInstallerRegistration.name}.testSupportedContent:`,
+        `Invalid game id. Expected ${TALESOFARISE_ID}. Actual: ${gameId}`
+      );
+      return Promise.resolve({
+        supported: false,
+        requiredFiles: [],
+      });
+    }
+
     const supported =
-      files.find(
-        (file) => path.extname(file).toLowerCase() === this.modFileExt
-      ) !== undefined;
+      gameId === TALESOFARISE_ID &&
+      files.find((file) => {
+        console.debug(`TALESOFARISE_ID: file received: ${file}`);
+        return path.extname(file).toLowerCase() === this.modFileExt;
+      }) !== undefined;
 
     return Promise.resolve({
       supported,
@@ -38,7 +52,21 @@ export class PakInstallerRegistration {
     });
   };
 
-  installContent = (files: string[]): Promise<IInstallResult> => {
+  installContent: InstallFunc = (
+    files: string[],
+    destinationPath: string,
+    gameId: string
+  ): Promise<IInstallResult> => {
+    if (gameId !== TALESOFARISE_ID) {
+      console.debug(
+        `${TALESOFARISE_ID}.${PakInstallerRegistration.name}.installContent:`,
+        `Invalid game id. Expected ${TALESOFARISE_ID}. Actual: ${gameId}`
+      );
+      return Promise.resolve({
+        instructions: [],
+      });
+    }
+
     const modFile = files.find(
       (file) => path.extname(file).toLowerCase() === this.modFileExt
     );

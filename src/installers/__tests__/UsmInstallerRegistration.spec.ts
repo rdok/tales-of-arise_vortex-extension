@@ -1,8 +1,12 @@
 import { makePathsFactory, makeVortexApi } from "../../../jest/factories";
 import { UsmInstallerRegistration } from "../UsmInstallerRegistration";
+import { TALESOFARISE_ID } from "../../main";
+import { createMock } from "ts-auto-mock";
+import { ProgressDelegate } from "vortex-api/lib/types/api";
 
 describe("UsmInstallerRegistration", () => {
-  const { installerRegistration } = makeFactory();
+  const { installerRegistration, gameId, destinationPath, progressDelegate } =
+    makeFactory();
   const { installerName, priority, testSupportedContent, installContent } =
     installerRegistration.create();
 
@@ -15,8 +19,22 @@ describe("UsmInstallerRegistration", () => {
   });
 
   describe("testSupported", () => {
+    it("supports tales of arise game", async () => {
+      expect(
+        await testSupportedContent(["lorem.usm"], TALESOFARISE_ID)
+      ).toEqual({
+        requiredFiles: [],
+        supported: true,
+      });
+    });
+    it("does not support other games", async () => {
+      expect(await testSupportedContent(["lorem.usm"], "invalid")).toEqual({
+        requiredFiles: [],
+        supported: false,
+      });
+    });
     it("sets a valid content qualifier function", async () => {
-      expect(await testSupportedContent(["lorem.UsM"])).toEqual({
+      expect(await testSupportedContent(["lorem.UsM"], gameId)).toEqual({
         requiredFiles: [],
         supported: true,
       });
@@ -25,7 +43,7 @@ describe("UsmInstallerRegistration", () => {
     it("sets an invalid content qualifier function", async () => {
       const { installerRegistration } = makeInvalidContentQualifierFactory();
       const { testSupportedContent } = installerRegistration.create();
-      expect(await testSupportedContent(["lorem.invalid"])).toEqual({
+      expect(await testSupportedContent(["lorem.invalid"], gameId)).toEqual({
         requiredFiles: [],
         supported: false,
       });
@@ -35,8 +53,26 @@ describe("UsmInstallerRegistration", () => {
   describe("installContent", () => {
     const { normalisedUsmModsPath } = makePathsFactory();
 
+    it("does not install mods for other games", async () => {
+      expect(
+        await installContent(
+          ["lorem.usm"],
+          destinationPath,
+          "invalid-game-id",
+          progressDelegate
+        )
+      ).toEqual({ instructions: [] });
+    });
+
     it("installs valid files", async () => {
-      expect(await installContent(["lorem.usm"])).toEqual({
+      expect(
+        await installContent(
+          ["lorem.usm"],
+          destinationPath,
+          gameId,
+          progressDelegate
+        )
+      ).toEqual({
         instructions: [
           {
             destination: `${normalisedUsmModsPath}/lorem.usm`,
@@ -49,7 +85,12 @@ describe("UsmInstallerRegistration", () => {
 
     it("filters invalid files", async () => {
       expect(
-        await installContent(["lorem.usm", "invalid", "path/ip.usm"])
+        await installContent(
+          ["lorem.usm", "invalid", "path/ip.usm"],
+          destinationPath,
+          gameId,
+          progressDelegate
+        )
       ).toEqual({
         instructions: [
           {
@@ -67,18 +108,31 @@ describe("UsmInstallerRegistration", () => {
     });
 
     it("installs no files having non valid", async () => {
-      expect(await installContent(["invalid"])).toEqual({ instructions: [] });
+      expect(
+        await installContent(
+          ["invalid"],
+          destinationPath,
+          gameId,
+          progressDelegate
+        )
+      ).toEqual({ instructions: [] });
     });
   });
 });
 
 function makeFactory() {
   const { gameStoreHelper, iGameStoreEntry } = makeVortexApi();
+  const gameId = TALESOFARISE_ID;
+  const destinationPath = "lorem-ipsum-destination-path";
+  const progressDelegate = createMock<ProgressDelegate>();
   const installerRegistration = new UsmInstallerRegistration();
   return {
     installerRegistration,
     gameStoreHelper,
     iGameStoreEntry,
+    gameId,
+    destinationPath,
+    progressDelegate,
   };
 }
 
