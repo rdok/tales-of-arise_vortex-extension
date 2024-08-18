@@ -2,7 +2,8 @@ import path from "path";
 import {
   IInstallResult,
   IInstruction,
-  ISupportedResult,
+  InstallFunc,
+  TestSupported,
 } from "vortex-api/lib/types/api";
 import { TALESOFARISE_ID } from "../main";
 import { usmModsPath } from "../paths";
@@ -10,8 +11,8 @@ import { usmModsPath } from "../paths";
 export type UsmInstallerRegistrationOutput = {
   installerName: string;
   priority: number;
-  testSupportedContent: (files: string[]) => Promise<ISupportedResult>;
-  installContent: (files: string[]) => Promise<IInstallResult>;
+  testSupportedContent: TestSupported;
+  installContent: InstallFunc;
 };
 
 export class UsmInstallerRegistration {
@@ -26,8 +27,20 @@ export class UsmInstallerRegistration {
     return { installerName, priority, testSupportedContent, installContent };
   }
 
-  testSupportedContent = (files: string[]) => {
+  testSupportedContent = (files: string[], gameId: string) => {
+    if (gameId !== TALESOFARISE_ID) {
+      console.debug(
+        `${TALESOFARISE_ID}.${UsmInstallerRegistration.name}.testSupportedContent:`,
+        `Invalid game id. Expected ${TALESOFARISE_ID}. Actual: ${gameId}`
+      );
+      return Promise.resolve({
+        supported: false,
+        requiredFiles: [],
+      });
+    }
+
     const supported =
+      gameId === TALESOFARISE_ID &&
       files.find(
         (file) => path.extname(file).toLowerCase() === this.modFileExt
       ) !== undefined;
@@ -38,7 +51,21 @@ export class UsmInstallerRegistration {
     });
   };
 
-  installContent = (files: string[]): Promise<IInstallResult> => {
+  installContent: InstallFunc = (
+    files: string[],
+    destinationPath: string,
+    gameId: string
+  ): Promise<IInstallResult> => {
+    if (gameId !== TALESOFARISE_ID) {
+      console.debug(
+        `${TALESOFARISE_ID}.${UsmInstallerRegistration.name}.installContent:`,
+        `Invalid game id. Expected ${TALESOFARISE_ID}. Actual: ${gameId}`
+      );
+
+      return Promise.resolve({
+        instructions: [],
+      });
+    }
     const modFile = files.find(
       (file) => path.extname(file).toLowerCase() === this.modFileExt
     );
