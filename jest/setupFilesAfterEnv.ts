@@ -4,7 +4,11 @@ global.console = {
   error: jest.fn(),
 };
 
-beforeEach(() => {});
+beforeEach(() => {
+  Object.defineProperty(global, "performance", {
+    writable: true,
+  });
+});
 
 afterEach(() => {
   // To mock modules from reusable make functions.
